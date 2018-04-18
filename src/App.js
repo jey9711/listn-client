@@ -69,7 +69,9 @@ class App extends Component {
   //   }
   // }
 
-  logIn = () => window.location='http://localhost:8888/login';
+  logIn = () => window.location=window.location.href.includes('localhost')
+    ?'http://localhost:8888/login'
+    :'https://listn-server.herokuapp.com/login';
 
   render() {
     return (
