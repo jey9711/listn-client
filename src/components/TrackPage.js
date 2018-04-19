@@ -13,6 +13,12 @@ class TrackPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isTrackPlaying: false,
+      activeTrack: null,
+      activeTrackImgSrc: '',
+      activeTrackProgress: 0,
+      activeTrackDuration: 0,
+      isPlayerDataLoaded: false,
       people: [
         "https://s3-lc-upload.s3.amazonaws.com/users/jey9711/avatar_1520649077.png",
         "https://yt3.ggpht.com/a-/AJLlDp1M4ABJkU6G_Jbf07yDkAW8c1JCmpWh02Q3xA=s900-mo-c-c0xffffffff-rj-k-no"
@@ -30,6 +36,12 @@ class TrackPage extends Component {
       ]
     }
     this.setupConnect = this.setupConnect.bind(this);
+    this._handleToggleIsPlaying = this._handleToggleIsPlaying.bind(this);
+    this._handleChangeProgress = this._handleChangeProgress.bind(this);
+    this._handleChangeProgressSlider = this._handleChangeProgressSlider.bind(this);
+    this._handleChangeActiveTrack = this._handleChangeActiveTrack.bind(this);
+    this._handleChangePlaybackState = this._handleChangePlaybackState.bind(this);
+    this._handleTogglePeopleDrawer = this._handleTogglePeopleDrawer.bind(this);
   }
 
   componentWillMount() {
@@ -47,9 +59,45 @@ class TrackPage extends Component {
     io.emit('initiate', { accessToken: accessToken });
   }
 
-  _handleSlider = (event, value) => this.setState({ songProgress: value });
+  _handleToggleIsPlaying = (isPlaying) => this.setState({ isTrackPlaying: isPlaying});
+  
+  _handleChangeProgress = (progress, timestamp) => this.setState({ activeTrackProgress: progress })
+  
+  _handleChangeProgressSlider = (event, value) => {
+    this.state.io.emit('seek', value);
+    this.setState({ activeTrackProgress: value });
+  }
 
-  _handleToggleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
+  _handleChangeActiveTrack = (activeTrack) => this.setState({
+    activeTrack: activeTrack,
+    activeTrackImgSrc: activeTrack.album.images[1].url,
+    activeTrackDuration: activeTrack.duration_ms,
+  });
+
+  _handleChangePlaybackState = (event, value) => {
+    switch(event) {
+      case 'backward':
+        this.state.activeTrackProgress < 2000
+          ? this.io.emit('previous_track')
+          : this.io.emit('seek', 0)
+        break;
+      case 'resume':
+        this._handleToggleIsPlaying(true);
+        this.io.emit('resume');
+        break;
+      case 'pause':
+        this._handleToggleIsPlaying(false);
+        this.io.emit('pause');
+        break;
+      case 'forward':
+        this.io.emit('next_track');
+        break;
+      default:
+        break;
+    }
+  }
+
+  _handleTogglePeopleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
 
   render() {
     const isPropsReady =  this.props.userInfo && this.props.userPlayerInfo;
@@ -68,7 +116,7 @@ class TrackPage extends Component {
             }}>
               <MainAppBar
                 isPeopleDrawerOpen={this.state.openDrawer}
-                handleToggleDrawer={this._handleToggleDrawer}
+                handleToggleDrawer={this._handleTogglePeopleDrawer}
                 searchDataSource={this.state.searchDataSource}
                 palette={palette}
               />
