@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import openSocket from 'socket.io-client';
 import PropTypes from 'prop-types';
 import Palette from 'react-palette';
 
@@ -28,7 +29,22 @@ class TrackPage extends Component {
         'Bruno Mars'
       ]
     }
+    this.setupConnect = this.setupConnect.bind(this);
+  }
 
+  componentWillMount() {
+    if (this.props.accessToken) {
+      this.setupConnect(this.props.accessToken);
+    }
+  }
+
+  setupConnect = (accessToken) => {
+    const backend_socket_url = window.location.href.includes('localhost')
+      ? 'http://localhost:8888/connect'
+      : 'https://listn-server.herokuapp.com/connect';
+    const io = openSocket(backend_socket_url)
+    console.log(io);
+    io.emit('initiate', { accessToken: accessToken });
   }
 
   _handleSlider = (event, value) => this.setState({ songProgress: value });

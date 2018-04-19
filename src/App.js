@@ -12,6 +12,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      accessToken: null,
       isUserInfoLoaded: false,
       isUserPlayerInfoLoaded: false,
       isLoggedIn: false,
@@ -23,9 +24,13 @@ class App extends Component {
     const parsed = QueryString.parse(window.location.search);
     const accessToken = parsed.access_token;
     if (accessToken) {
-      this.getSpotifyUserInfo(accessToken);
-      this.getSpotifyUserPlayerInfo(accessToken);
-      this.setState({ isLoggedIn: true });
+      this.setState({
+        accessToken
+      }, () => {
+        this.getSpotifyUserInfo(this.state.accessToken);
+        this.getSpotifyUserPlayerInfo(this.state.accessToken);
+        this.setState({ isLoggedIn: true });
+      })
     }
   }
 
@@ -78,7 +83,11 @@ class App extends Component {
       <MuiThemeProvider>
         {
           this.state.isLoggedIn
-            ? <TrackPage userInfo={this.state.userInfo} userPlayerInfo={this.state.userPlayerInfo}/>
+            ? <TrackPage 
+                accessToken={this.state.accessToken}
+                userInfo={this.state.userInfo} 
+                userPlayerInfo={this.state.userPlayerInfo}
+              />
             : <LoginPage logIn={this.logIn} />
         }
       </MuiThemeProvider>
