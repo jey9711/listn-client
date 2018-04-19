@@ -154,21 +154,12 @@ class TrackPage extends Component {
                   <TrackDescription
                     activeTrack={this.state.activeTrack}
                     style={{ paddingTop: '13.5%' }}
-                    trackImageSrc={this.props.userPlayerInfo.trackImgSrc}
-                    trackTitle={this.props.userPlayerInfo.trackTitle}
-                    trackArtists={this.props.userPlayerInfo.trackArtists}
                   />
                 )
                 :
                 <span>Loading...</span>
 
               }
-              {/* <TrackDescription
-                trackImageSrc={this.props.userPlayerInfo.trackImgSrc}
-                trackTitle={this.props.userPlayerInfo.trackTitle}
-                trackArtists={this.props.userPlayerInfo.trackArtists}
-                style={{ paddingTop: '15%' }}
-              /> */}
               
               <BottomNavPlayer
                 songProgress={this.props.userPlayerInfo.trackProgress}

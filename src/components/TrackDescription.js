@@ -5,9 +5,7 @@ import { Grid, Row, Col } from 'react-material-responsive-grid';
 class TrackDescription extends Component {
 
   render() {
-
     const artistNames = this.props.activeTrack.artists.map(artists => artists.name).join(", ");
-    // const artistNames = this.props.trackArtists.map(artists => artists.name).join(", ");
 
     return (
       <Grid style={{ textAlign: 'center', ...this.props.style }}>
@@ -15,7 +13,6 @@ class TrackDescription extends Component {
           <Col xs4={4} sm={12} md={12} lg={12}>
             <img
               src={this.props.activeTrack.album.images[1].url}
-              // src={this.props.trackImageSrc}
               width="300px"
               alt=""
             />
@@ -25,7 +22,6 @@ class TrackDescription extends Component {
               color: '#ffffff'
             }}>
               {this.props.activeTrack.name}
-              {/* {this.props.trackTitle} */}
             </h4>
             <p style={{
               fontSize: '13.5px',
