@@ -57,6 +57,23 @@ class TrackPage extends Component {
     const io = openSocket(backend_socket_url)
     console.log(io);
     io.emit('initiate', { accessToken: accessToken });
+    const wrappedHandler = (event, handler) => {
+      io.on(event, data => {
+        handler(data)
+      })
+    }
+    wrappedHandler('initial_state', state => {
+      this._handleToggleIsPlaying(state.is_playing)
+      this._handleChangeActiveTrack(state.item)
+      this._handleChangeProgress(state.progress_ms)
+      this.setState({ isPlayerDataLoaded: true })
+      this.progressTimer = window.setInterval(() => {
+        if (this.state.isTrackPlaying &&
+          this.state.activeTrackProgress + 100 <= this.state.activeTrackDuration) {
+          this._handleChangeProgress(this.state.activeTrackProgress + 300)
+        }
+      }, 300)
+    })
   }
 
   _handleToggleIsPlaying = (isPlaying) => this.setState({ isTrackPlaying: isPlaying});
