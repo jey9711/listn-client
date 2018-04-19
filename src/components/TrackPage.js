@@ -76,6 +76,11 @@ class TrackPage extends Component {
         }
       }, 300)
     })
+    wrappedHandler('playback_started', () => this._handleToggleIsPlaying(true))
+    wrappedHandler('playback_paused', () => this._handleToggleIsPlaying(false))
+    wrappedHandler('track_change', this._handleChangeActiveTrack)
+    wrappedHandler('seek', this._handleChangeProgress)
+    this.io = io
   }
 
   _handleToggleIsPlaying = (isPlaying) => this.setState({ isTrackPlaying: isPlaying});
@@ -144,12 +149,26 @@ class TrackPage extends Component {
                 isOpen={this.state.openDrawer}
                 people={[this.props.userInfo.profilePicture, ...this.state.people]}
               />
-              <TrackDescription
+              {this.state.isPlayerDataLoaded
+                ? (
+                  <TrackDescription
+                    activeTrack={this.state.activeTrack}
+                    style={{ paddingTop: '13.5%' }}
+                    trackImageSrc={this.props.userPlayerInfo.trackImgSrc}
+                    trackTitle={this.props.userPlayerInfo.trackTitle}
+                    trackArtists={this.props.userPlayerInfo.trackArtists}
+                  />
+                )
+                :
+                <span>Loading...</span>
+
+              }
+              {/* <TrackDescription
                 trackImageSrc={this.props.userPlayerInfo.trackImgSrc}
                 trackTitle={this.props.userPlayerInfo.trackTitle}
                 trackArtists={this.props.userPlayerInfo.trackArtists}
                 style={{ paddingTop: '15%' }}
-              />
+              /> */}
               
               <BottomNavPlayer
                 songProgress={this.props.userPlayerInfo.trackProgress}
