@@ -50,7 +50,6 @@ class TrackPage extends Component {
               right: '0',
               background: `linear-gradient(to bottom, ${palette.darkVibrant || palette.darkMuted} 0%, #000000 100%)`,
             }}>
-              {console.log(palette)}
               <MainAppBar
                 isPeopleDrawerOpen={this.state.openDrawer}
                 handleToggleDrawer={this._handleToggleDrawer}
