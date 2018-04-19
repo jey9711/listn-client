@@ -8,6 +8,8 @@ import PeopleDrawer from './PeopleDrawer';
 import TrackDescription from './TrackDescription';
 import BottomNavPlayer from './BottomNavPlayer';
 
+import grayImg from './../assets/images/gray.jpg';
+
 class TrackPage extends Component {
 
   constructor(props) {
@@ -15,7 +17,7 @@ class TrackPage extends Component {
     this.state = {
       isTrackPlaying: false,
       activeTrack: null,
-      activeTrackImgSrc: '',
+      activeTrackImgSrc: grayImg,
       activeTrackProgress: 0,
       activeTrackDuration: 0,
       isPlayerDataLoaded: false,
@@ -121,7 +123,8 @@ class TrackPage extends Component {
     return !isPropsReady 
       ? <div/> 
       : (
-        <Palette image={this.props.userPlayerInfo.trackImgSrc}>
+        <Palette image={this.state.activeTrackImgSrc}>
+        {/* <Palette image={this.props.userPlayerInfo.trackImgSrc}> */}
           {palette => (
             <div style={{
               position: 'absolute',
@@ -129,7 +132,7 @@ class TrackPage extends Component {
               bottom: '0',
               left: '0',
               right: '0',
-              background: `linear-gradient(to bottom, ${palette.darkVibrant || palette.darkMuted} 0%, #000000 100%)`,
+              background: `linear-gradient(to bottom, ${palette.darkVibrant || palette.darkMuted || '#444444'} 0%, #000000 100%)`,
             }}>
               <MainAppBar
                 isPeopleDrawerOpen={this.state.openDrawer}
