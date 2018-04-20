@@ -24,6 +24,7 @@ class TrackPage extends Component {
       activeTrackProgress: 0,
       activeTrackDuration: 0,
       isPlayerDataLoaded: false,
+      progressTimer: null,
       people: [
         "https://s3-lc-upload.s3.amazonaws.com/users/jey9711/avatar_1520649077.png",
         "https://yt3.ggpht.com/a-/AJLlDp1M4ABJkU6G_Jbf07yDkAW8c1JCmpWh02Q3xA=s900-mo-c-c0xffffffff-rj-k-no"
@@ -44,6 +45,8 @@ class TrackPage extends Component {
     this._handleToggleIsPlaying = this._handleToggleIsPlaying.bind(this);
     this._handleChangeProgress = this._handleChangeProgress.bind(this);
     this._handleChangeProgressSlider = this._handleChangeProgressSlider.bind(this);
+    this._handleSetProgressTimer = this._handleSetProgressTimer.bind(this);
+    this._handleResetProgressTimer = this._handleResetProgressTimer.bind(this);
     this._handleChangeActiveTrack = this._handleChangeActiveTrack.bind(this);
     this._handleChangePlaybackState = this._handleChangePlaybackState.bind(this);
     this._handleTogglePeopleDrawer = this._handleTogglePeopleDrawer.bind(this);
@@ -72,12 +75,6 @@ class TrackPage extends Component {
       this._handleChangeActiveTrack(state.item)
       this._handleChangeProgress(state.progress_ms)
       this.setState({ isPlayerDataLoaded: true })
-      this.progressTimer = window.setInterval(() => {
-        if (this.state.isTrackPlaying &&
-          this.state.activeTrackProgress + 100 <= this.state.activeTrackDuration) {
-          this._handleChangeProgress(this.state.activeTrackProgress + 300)
-        }
-      }, 300)
     })
     wrappedHandler('playback_started', () => this._handleToggleIsPlaying(true))
     wrappedHandler('playback_paused', () => this._handleToggleIsPlaying(false))
@@ -92,13 +89,32 @@ class TrackPage extends Component {
   
   _handleChangeProgressSlider = (event, value) => {
     this.io.emit('seek', value);
-    this.setState({ activeTrackProgress: value });
+    this._handleChangeProgress(value);
+  }
+
+  _handleSetProgressTimer = (interval) => {
+    this.setState({
+      progressTimer: window.setInterval(() => {
+        if (this.state.isTrackPlaying &&
+          this.state.activeTrackProgress + 100 <= this.state.activeTrackDuration) {
+          this._handleChangeProgress(this.state.activeTrackProgress + interval)
+        }
+      }, interval)
+    })
+  }
+      
+  _handleResetProgressTimer = (interval) => {
+    clearInterval(this.state.progressTimer)
+    this._handleSetProgressTimer(interval)
   }
 
   _handleChangeActiveTrack = (activeTrack) => this.setState({
     activeTrack: activeTrack,
     activeTrackImgSrc: activeTrack.album.images[1].url,
     activeTrackDuration: activeTrack.duration_ms,
+  }, () => {
+    this._handleChangeProgress(0)
+    this._handleResetProgressTimer(200)
   });
 
   _handleChangePlaybackState = (event, value) => {
@@ -107,6 +123,8 @@ class TrackPage extends Component {
         this.state.activeTrackProgress < 2000
           ? this.io.emit('previous_track')
           : this.io.emit('seek', 0)
+        this._handleChangeProgress(0)
+        this._handleResetProgressTimer(200)
         break;
       case 'resume':
         this._handleToggleIsPlaying(true);
@@ -118,10 +136,13 @@ class TrackPage extends Component {
         break;
       case 'forward':
         this.io.emit('next_track');
+        this._handleChangeProgress(0)
+        this._handleResetProgressTimer(200)
         break;
       default:
         break;
     }
+    
   }
 
   _handleTogglePeopleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
