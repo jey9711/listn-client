@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import './styles/App.css';
 import QueryString from 'query-string';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import LoginPage from './components/LoginPage';
 import TrackPage from './components/TrackPage';
 
@@ -79,20 +77,14 @@ class App extends Component {
     :'https://listn-server.herokuapp.com/login';
 
   render() {
-    return (
-      <MuiThemeProvider>
-        {
-          this.state.isLoggedIn
+    return this.state.isLoggedIn
             ? <TrackPage 
                 accessToken={this.state.accessToken}
                 userInfo={this.state.userInfo} 
                 userPlayerInfo={this.state.userPlayerInfo}
               />
             : <LoginPage logIn={this.logIn} />
-        }
-      </MuiThemeProvider>
-
-    );
+    
   }
 }
 

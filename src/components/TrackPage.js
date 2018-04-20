@@ -8,6 +8,9 @@ import PeopleDrawer from './PeopleDrawer';
 import TrackDescription from './TrackDescription';
 import BottomNavPlayer from './BottomNavPlayer';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 import grayImg from './../assets/images/gray.jpg';
 
 class TrackPage extends Component {
@@ -131,42 +134,51 @@ class TrackPage extends Component {
         <Palette image={this.state.activeTrackImgSrc}>
         {/* <Palette image={this.props.userPlayerInfo.trackImgSrc}> */}
           {palette => (
-            <div style={{
-              position: 'absolute',
-              top: '0',
-              bottom: '0',
-              left: '0',
-              right: '0',
-              background: `linear-gradient(to bottom, ${palette.darkVibrant || palette.darkMuted || '#444444'} 0%, #000000 100%)`,
-            }}>
-              <MainAppBar
-                isPeopleDrawerOpen={this.state.openDrawer}
-                handleToggleDrawer={this._handleTogglePeopleDrawer}
-                searchDataSource={this.state.searchDataSource}
-                palette={palette}
-              />
-              <PeopleDrawer
-                isOpen={this.state.openDrawer}
-                people={[this.props.userInfo.profilePicture, ...this.state.people]}
-              />
-              { this.state.isPlayerDataLoaded
-                  ? (
-                    <TrackDescription
-                      activeTrack={this.state.activeTrack}
-                      style={{ paddingTop: '13.5%' }}
-                    />
-                  )
-                  :
-                  <span>Loading...</span>
-              }
-              <BottomNavPlayer
-                isTrackPlaying={this.state.isTrackPlaying}
-                activeTrackProgress={this.state.activeTrackProgress}
-                activeTrackDuration={this.state.activeTrackDuration}
-                handleChangeProgressSlider={this._handleChangeProgressSlider}
-                handleChangePlaybackState={this._handleChangePlaybackState}
-              />
-            </div>
+            <MuiThemeProvider muiTheme={
+              getMuiTheme({
+                slider: {
+                  selectionColor: palette.darkVibrant || palette.darkMuted || '#444444',
+                  handleFillColor: palette.darkVibrant || palette.darkMuted || '#444444',
+                }
+              })
+            }>
+              <div style={{
+                position: 'absolute',
+                top: '0',
+                bottom: '0',
+                left: '0',
+                right: '0',
+                background: `linear-gradient(to bottom, ${palette.darkVibrant || palette.darkMuted || '#444444'} 0%, #000000 100%)`,
+              }}>
+                <MainAppBar
+                  isPeopleDrawerOpen={this.state.openDrawer}
+                  handleToggleDrawer={this._handleTogglePeopleDrawer}
+                  searchDataSource={this.state.searchDataSource}
+                  palette={palette}
+                />
+                <PeopleDrawer
+                  isOpen={this.state.openDrawer}
+                  people={[this.props.userInfo.profilePicture, ...this.state.people]}
+                />
+                { this.state.isPlayerDataLoaded
+                    ? (
+                      <TrackDescription
+                        activeTrack={this.state.activeTrack}
+                        style={{ paddingTop: '13.5%' }}
+                      />
+                    )
+                    :
+                    <span>Loading...</span>
+                }
+                <BottomNavPlayer
+                  isTrackPlaying={this.state.isTrackPlaying}
+                  activeTrackProgress={this.state.activeTrackProgress}
+                  activeTrackDuration={this.state.activeTrackDuration}
+                  handleChangeProgressSlider={this._handleChangeProgressSlider}
+                  handleChangePlaybackState={this._handleChangePlaybackState}
+                />
+              </div>
+            </MuiThemeProvider>
           )}
         </Palette>
       )
