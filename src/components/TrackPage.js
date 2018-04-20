@@ -96,7 +96,7 @@ class TrackPage extends Component {
     this.setState({
       progressTimer: window.setInterval(() => {
         if (this.state.isTrackPlaying &&
-          this.state.activeTrackProgress + 100 <= this.state.activeTrackDuration) {
+          this.state.activeTrackProgress + interval <= this.state.activeTrackDuration) {
           this._handleChangeProgress(this.state.activeTrackProgress + interval)
         }
       }, interval)

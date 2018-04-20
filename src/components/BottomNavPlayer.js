@@ -81,15 +81,21 @@ class BottomNavPlayer extends Component {
                 paddingRight: '10px',
 
               }}>
-                <Slider
-                  min={0}
-                  max={this.props.activeTrackDuration || 1}
-                  step={1}
-                  value={this.props.activeTrackProgress}
-                  onChange={(e, val) => this.val = val}
-                  onDragStop={(e) => this.props.handleChangeProgressSlider(e, this.val)}
-                  sliderStyle={{ margin: '20px 0px 20px 0px' }}
-                />
+                { this.props.activeTrackProgress >= 0 && 
+                  this.props.activeTrackProgress <= this.props.activeTrackDuration 
+                  ? (
+                      <Slider
+                        min={0}
+                        max={this.props.activeTrackDuration || 1}
+                        step={1}
+                        value={this.props.activeTrackProgress}
+                        onChange={(e, val) => this.val = val}
+                        onDragStop={(e) => this.props.handleChangeProgressSlider(e, this.val)}
+                        sliderStyle={{ margin: '20px 0px 20px 0px' }}
+                      />
+                    )
+                  : null
+                }
               </div>
               <div style={{
                 display: 'table-cell',
