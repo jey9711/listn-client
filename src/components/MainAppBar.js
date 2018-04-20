@@ -19,7 +19,7 @@ class MainAppBar extends Component {
           overflow: 'visible',
         }}
         style={{
-          backgroundColor: '#191414',
+          backgroundColor: 'rgba(0,0,0,0.8)',
           height: '60px'
         }}
         iconElementRight={

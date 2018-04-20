@@ -14,6 +14,7 @@ class SearchBar extends Component {
   render() {
     return (
       <Paper style={{
+        width: '80%',
         maxWidth: '250px',
         height: '30px',
         borderRadius: '20px',
@@ -31,18 +32,13 @@ class SearchBar extends Component {
         <AutoComplete
           hintText="Search"
           dataSource={this.props.searchDataSource}
+          fullWidth={true}
           style={{
             height: '90%',
             width: '70%',
             marginLeft: '10px',
             bottom: '13px',
             fontSize: '10px'
-          }}
-          menuStyle={{
-            width: '70%',
-          }}
-          underlineStyle={{
-            width: '70%',
           }}
           underlineFocusStyle={{
             borderColor: this.props.palette.darkVibrant
@@ -54,7 +50,6 @@ class SearchBar extends Component {
           inputStyle={{
             fontSize: '15px',
             bottom: '-3.5px',
-            width: '70%'
           }}
         />
       </Paper>
