@@ -39,7 +39,7 @@ class BottomNavPlayer extends Component {
                 verticalAlign: 'middle',
                 textAlign: 'center',
               }}>
-                <IconButton onClick={() => this.props.handlePlaybackState('backward')}>
+                <IconButton onClick={() => this.props.handleChangePlaybackState('backward')}>
                   <SkipBackward color="#cccccc" size={40} />
                 </IconButton>
                 {this.props.isTrackPlaying
