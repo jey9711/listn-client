@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import openSocket from 'socket.io-client';
-import PropTypes from 'prop-types';
 import Palette from 'react-palette';
 
 import MainAppBar from './MainAppBar';
@@ -123,7 +122,6 @@ class TrackPage extends Component {
         this.state.activeTrackProgress < 2000
           ? this.io.emit('previous_track')
           : this.io.emit('seek', 0)
-        this._handleChangeProgress(0)
         this._handleResetProgressTimer(200)
         break;
       case 'resume':
@@ -136,7 +134,6 @@ class TrackPage extends Component {
         break;
       case 'forward':
         this.io.emit('next_track');
-        this._handleChangeProgress(0)
         this._handleResetProgressTimer(200)
         break;
       default:
@@ -202,10 +199,6 @@ class TrackPage extends Component {
         </Palette>
       )
   }
-}
-
-TrackPage.propTypes = {
-  nowPlayingData: PropTypes.object
 }
 
 export default TrackPage;
