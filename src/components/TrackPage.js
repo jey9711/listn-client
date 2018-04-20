@@ -148,12 +148,10 @@ class TrackPage extends Component {
   _handleTogglePeopleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
 
   render() {
-    const isPropsReady =  this.props.userInfo && this.props.userPlayerInfo;
-    return !isPropsReady 
-      ? <div/> 
+    return !this.props.userInfo
+      ? null 
       : (
         <Palette image={this.state.activeTrackImgSrc}>
-        {/* <Palette image={this.props.userPlayerInfo.trackImgSrc}> */}
           {palette => (
             <MuiThemeProvider muiTheme={
               getMuiTheme({

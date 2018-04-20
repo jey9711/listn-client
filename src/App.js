@@ -26,7 +26,6 @@ class App extends Component {
         accessToken
       }, () => {
         this.getSpotifyUserInfo(this.state.accessToken);
-        this.getSpotifyUserPlayerInfo(this.state.accessToken);
         this.setState({ isLoggedIn: true });
       })
     }
@@ -35,7 +34,7 @@ class App extends Component {
   getSpotifyUserInfo = (accessToken) => {
     fetch('https://api.spotify.com/v1/me', {
       headers: {
-        'Authorization': 'Bearer ' + accessToken
+        'Authorization': `Bearer ${accessToken}`
       }
     }).then(response => response.json(accessToken))
       .then(data => this.setState({
@@ -46,32 +45,6 @@ class App extends Component {
       }));
   }
 
-  getSpotifyUserPlayerInfo = (accessToken) => {
-    fetch('https://api.spotify.com/v1/me/player', {
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      }
-    }).then(response => response.json())
-      .then(data => this.setState({
-        userPlayerInfo: {
-          trackImgSrc: data.item.album.images[1].url,
-          trackTitle: data.item.name,
-          trackArtists: data.item.artists,
-          trackProgress: data.progress_ms,
-          trackDuration: data.item.duration_ms,
-        },
-        isUserPlayerInfoLoaded: true
-      }));
-  }
-
-  // logIn = () => {
-  //   if (window.location.href.includes('localhost')) {
-  //     alert('window.location:' + window.location);
-  //   } else {
-  //     alert('window.location:' + window.location);
-  //   }
-  // }
-
   logIn = () => window.location=window.location.href.includes('localhost')
     ?'http://localhost:8888/login'
     :'https://listn-server.herokuapp.com/login';
@@ -81,7 +54,6 @@ class App extends Component {
             ? <TrackPage 
                 accessToken={this.state.accessToken}
                 userInfo={this.state.userInfo} 
-                userPlayerInfo={this.state.userPlayerInfo}
               />
             : <LoginPage logIn={this.logIn} />
     
