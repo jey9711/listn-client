@@ -88,7 +88,7 @@ class TrackPage extends Component {
   _handleChangeProgress = (progress, timestamp) => this.setState({ activeTrackProgress: progress })
   
   _handleChangeProgressSlider = (event, value) => {
-    this.state.io.emit('seek', value);
+    this.io.emit('seek', value);
     this.setState({ activeTrackProgress: value });
   }
 
@@ -149,22 +149,22 @@ class TrackPage extends Component {
                 isOpen={this.state.openDrawer}
                 people={[this.props.userInfo.profilePicture, ...this.state.people]}
               />
-              {this.state.isPlayerDataLoaded
-                ? (
-                  <TrackDescription
-                    activeTrack={this.state.activeTrack}
-                    style={{ paddingTop: '13.5%' }}
-                  />
-                )
-                :
-                <span>Loading...</span>
-
+              { this.state.isPlayerDataLoaded
+                  ? (
+                    <TrackDescription
+                      activeTrack={this.state.activeTrack}
+                      style={{ paddingTop: '13.5%' }}
+                    />
+                  )
+                  :
+                  <span>Loading...</span>
               }
-              
               <BottomNavPlayer
-                songProgress={this.props.userPlayerInfo.trackProgress}
-                songDuration={this.props.userPlayerInfo.trackDuration}
-                handleSlider={this._handleSlider}
+                isTrackPlaying={this.state.isTrackPlaying}
+                activeTrackProgress={this.state.activeTrackProgress}
+                activeTrackDuration={this.state.activeTrackDuration}
+                handleChangeProgressSlider={this._handleChangeProgressSlider}
+                handleChangePlaybackState={this._handleChangePlaybackState}
               />
             </div>
           )}
