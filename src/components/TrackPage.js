@@ -10,6 +10,8 @@ import BottomNavPlayer from './BottomNavPlayer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+import CircularProgress from 'material-ui/CircularProgress';
+
 import grayImg from './../assets/images/gray.jpg';
 
 class TrackPage extends Component {
@@ -139,7 +141,6 @@ class TrackPage extends Component {
       default:
         break;
     }
-    
   }
 
   _handleTogglePeopleDrawer = () => this.setState({ openDrawer: !this.state.openDrawer });
@@ -165,6 +166,7 @@ class TrackPage extends Component {
                 left: '0',
                 right: '0',
                 background: `linear-gradient(to bottom, ${palette.darkVibrant || palette.darkMuted || '#444444'} 0%, #000000 100%)`,
+                overflow: 'hidden'
               }}>
                 <MainAppBar
                   isPeopleDrawerOpen={this.state.openDrawer}
@@ -177,14 +179,21 @@ class TrackPage extends Component {
                   people={[this.props.userInfo.profilePicture, ...this.state.people]}
                 />
                 { this.state.isPlayerDataLoaded
-                    ? (
+                    ? 
                       <TrackDescription
                         activeTrack={this.state.activeTrack}
                         style={{ paddingTop: '13.5%' }}
                       />
-                    )
                     :
-                    <span>Loading...</span>
+                      <CircularProgress 
+                        size={70} 
+                        color="#ffffff"
+                        style={{
+                          position: 'absolute',
+                          top: 'calc(50% - 50px)',
+                          left: 'calc(50% - 35px)',
+                        }}
+                      />
                 }
                 <BottomNavPlayer
                   isTrackPlaying={this.state.isTrackPlaying}

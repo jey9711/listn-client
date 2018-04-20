@@ -32,36 +32,52 @@ class BottomNavPlayer extends Component {
       }}>
         <Grid>
           <Row>
-            <Col xs4={4} sm={12} md={12} lg={12} style={{ display: 'table' }}>
+            <Col xs4={4} sm={12} md={12} lg={12} style={{ display: 'table', height: '60px' }}>
+              <div style={{ display: 'table-cell'}}/>
               <div style={{
                 display: 'table-cell',
-                height: '60px',
+                width: '60px',
                 verticalAlign: 'middle',
                 textAlign: 'center',
               }}>
-                <IconButton onClick={() => this.props.handleChangePlaybackState('backward')}>
+                <IconButton style={{ padding: 0 }} onClick={() => this.props.handleChangePlaybackState('backward')}>
                   <SkipBackward color="#cccccc" size={40} />
                 </IconButton>
+              </div>
+              <div style={{
+                display: 'table-cell',
+                width: '60px',
+                verticalAlign: 'middle',
+                textAlign: 'center',
+              }}>
                 {this.props.isTrackPlaying
                   ? (
-                    <IconButton onClick={() => this.props.handleChangePlaybackState('pause')}>
+                    <IconButton style={{ padding: 0 }} onClick={() => this.props.handleChangePlaybackState('pause')}>
                       <Pause color="#cccccc" size={40} />
                     </IconButton>
                   )
                   :
                   (
-                    <IconButton onClick={() => this.props.handleChangePlaybackState('resume')}>
+                    <IconButton style={{ padding: 0 }} onClick={() => this.props.handleChangePlaybackState('resume')}>
                       <Play color="#cccccc" size={40} />
                     </IconButton>
                   )
                 }
-                <IconButton onClick={() => this.props.handleChangePlaybackState('forward')}>
+              </div>
+              <div style={{
+                display: 'table-cell',
+                width: '60px',
+                verticalAlign: 'middle',
+                textAlign: 'center',
+              }}>
+                <IconButton style={{ padding: 0 }}onClick={() => this.props.handleChangePlaybackState('forward')}>
                   <SkipForward
                     color="#cccccc"
                     size={40}
                   />
                 </IconButton>
               </div>
+              <div style={{ display: 'table-cell' }} />
             </Col>
           </Row>
           <Row>
