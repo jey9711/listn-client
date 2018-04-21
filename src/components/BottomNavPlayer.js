@@ -32,24 +32,16 @@ class BottomNavPlayer extends Component {
       }}>
         <Grid>
           <Row>
-            <Col xs4={4} sm={12} md={12} lg={12} style={{ display: 'table', height: '60px' }}>
-              <div style={{ display: 'table-cell'}}/>
+            <Col xs4={4} sm={12} md={12} lg={12} style={{ display: 'table', height: '60px', width: '100%' }}>
               <div style={{
                 display: 'table-cell',
-                width: '60px',
+                height: '60px',
                 verticalAlign: 'middle',
                 textAlign: 'center',
               }}>
                 <IconButton style={{ padding: 0 }} onClick={() => this.props.handleChangePlaybackState('backward')}>
                   <SkipBackward color="#cccccc" size={40} />
                 </IconButton>
-              </div>
-              <div style={{
-                display: 'table-cell',
-                width: '60px',
-                verticalAlign: 'middle',
-                textAlign: 'center',
-              }}>
                 {this.props.isTrackPlaying
                   ? (
                     <IconButton style={{ padding: 0 }} onClick={() => this.props.handleChangePlaybackState('pause')}>
@@ -63,13 +55,6 @@ class BottomNavPlayer extends Component {
                     </IconButton>
                   )
                 }
-              </div>
-              <div style={{
-                display: 'table-cell',
-                width: '60px',
-                verticalAlign: 'middle',
-                textAlign: 'center',
-              }}>
                 <IconButton style={{ padding: 0 }}onClick={() => this.props.handleChangePlaybackState('forward')}>
                   <SkipForward
                     color="#cccccc"
@@ -77,12 +62,10 @@ class BottomNavPlayer extends Component {
                   />
                 </IconButton>
               </div>
-              <div style={{ display: 'table-cell' }} />
             </Col>
           </Row>
           <Row>
-            <Col xs4={4} sm={12} md={12} lg={12} style={{ display: 'table', overflow: 'hidden' }}>
-
+            <Col xs4={4} sm={12} md={12} lg={12} style={{ display: 'table', width: '100%' }}>
               <div style={{
                 display: 'table-cell',
                 width: '20%',

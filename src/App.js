@@ -19,6 +19,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log(window.location.search.includes('access_token'));
     const parsed = QueryString.parse(window.location.search);
     const accessToken = parsed.access_token;
     if (accessToken) {
