@@ -62,6 +62,11 @@ class App extends Component {
     ?'http://localhost:8888/login'
     :'https://listn-server.herokuapp.com/login';
 
+  logOut = () => {
+    logout();
+    window.location.reload();
+  }
+
   render() {
     return (
       <Router>
