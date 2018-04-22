@@ -177,6 +177,7 @@ class TrackPage extends Component {
                 <PeopleDrawer
                   isOpen={this.state.openDrawer}
                   people={[this.props.userInfo.profilePicture, ...this.state.people]}
+                  logOut={this.props.logOut}
                 />
                 { this.state.isPlayerDataLoaded
                     ? 

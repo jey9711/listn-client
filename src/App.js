@@ -4,7 +4,6 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import './styles/App.css';
 
 import {
   storeToken,
@@ -14,7 +13,6 @@ import {
 } from './tokenStorage'
 
 import Auth from './Auth';
-
 import LoginPage from './components/LoginPage';
 import TrackPage from './components/TrackPage';
 
