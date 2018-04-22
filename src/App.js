@@ -15,8 +15,6 @@ import {
 
 import Auth from './Auth';
 
-import QueryString from 'query-string';
-
 import LoginPage from './components/LoginPage';
 import TrackPage from './components/TrackPage';
 
