@@ -1,5 +1,20 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
 import './styles/App.css';
+
+import {
+  storeToken,
+  getToken,
+  checkToken,
+  logout
+} from './tokenStorage'
+
+import Auth from './Auth';
+
 import QueryString from 'query-string';
 
 import LoginPage from './components/LoginPage';
@@ -19,16 +34,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(window.location.search.includes('access_token'));
-    const parsed = QueryString.parse(window.location.search);
-    const accessToken = parsed.access_token;
-    if (accessToken) {
+    if (checkToken()) {
+      const access_token = getToken()
+      this.getSpotifyUserInfo(access_token)
       this.setState({
-        accessToken
-      }, () => {
-        this.getSpotifyUserInfo(this.state.accessToken);
-        this.setState({ isLoggedIn: true });
+        accessToken: access_token,
+        redirectTo: 'room'
       })
+    } else {
+      this.setState({ redirectTo: 'login' })
     }
   }
 
@@ -51,13 +65,34 @@ class App extends Component {
     :'https://listn-server.herokuapp.com/login';
 
   render() {
-    return this.state.isLoggedIn
-            ? <TrackPage 
-                accessToken={this.state.accessToken}
-                userInfo={this.state.userInfo} 
-              />
-            : <LoginPage logIn={this.logIn} />
-    
+    return (
+      <Router>
+        <Switch>
+          {/* <Route path="/r/" render={() => <CreateRoom/>} />
+            <Route path="/r/:roomId" render={() => <TrackPage accessToken={this.state.accessToken} userInfo={this.state.userInfo} />} /> */}
+          <Route exact path="/" render={() => {
+            switch (this.state.redirectTo) {
+              case 'login':
+                return (
+                  <LoginPage logIn={this.logIn} />
+                )
+              case 'room':
+                return (
+                  <TrackPage
+                    accessToken={this.state.accessToken}
+                    userInfo={this.state.userInfo}
+                    logOut={this.logOut}
+                  />
+                )
+              default:
+                return null
+            }
+          }} />
+          <Route path="/auth" render={() => <Auth storeToken={storeToken} />} />
+          <Route path="/login" render={() => <LoginPage logIn={this.logIn} />} />
+        </Switch>
+      </Router>
+    )
   }
 }
 
